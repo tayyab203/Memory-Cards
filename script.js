@@ -62,3 +62,49 @@ function createCards() {
     </div>
   </div>
     `;
+    
+  card.addEventListener('click', () => card.classList.toggle('show-answer'));
+
+  // Add to DOM cards
+  cardsEl.push(card);
+
+  cardsContainer.appendChild(card);
+
+  updateCurrentText();
+}
+
+// Show number of cards
+function updateCurrentText() {
+  currentEl.innerText = `${currentActiveCard + 1}/${cardsEl.length}`;
+}
+
+// Get cards from local storage
+function getCardsData() {
+  const cards = JSON.parse(localStorage.getItem('cards'));
+  return cards === null ? [] : cards;
+}
+
+// Add card to local storage
+function setCardsData(cards) {
+  localStorage.setItem('cards', JSON.stringify(cards));
+  window.location.reload();
+}
+
+createCards();
+
+// Event listeners
+
+// Next button
+nextBtn.addEventListener('click', () => {
+  cardsEl[currentActiveCard].className = 'card left';
+
+  currentActiveCard = currentActiveCard + 1;
+
+  if (currentActiveCard > cardsEl.length - 1) {
+    currentActiveCard = cardsEl.length - 1;
+  }
+
+  cardsEl[currentActiveCard].className = 'card active';
+
+  updateCurrentText();
+});
